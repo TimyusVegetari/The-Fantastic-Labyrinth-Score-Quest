@@ -1,0 +1,122 @@
+////////////////////////////////////////////////////////////
+//
+// This file is part of The Fantastic Labyrinth.
+// Copyright (C) 2016-2017 Acroute Anthony (ant110283@hotmail.fr)
+//
+// The Fantastic Labyrinth is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+//
+// The Fantastic Labyrinth is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with The Fantastic Labyrinth.  If not, see <http://www.gnu.org/licenses/>.
+//
+////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////
+// Description for Doxygen
+////////////////////////////////////////////////////////////
+/**
+ * \file Ground.hpp
+ * \brief Class for the wall objects.
+ * \author Anthony Acroute
+ * \version 0.1
+ * \date 2016-2017
+ *
+ */
+
+#ifndef GROUND_HPP__
+#define GROUND_HPP__
+
+////////////////////////////////////////////////////////////
+// Headers
+////////////////////////////////////////////////////////////
+#include <Game/GameEngine/GameObjects/GameObject.hpp>
+#include "TileTypes.hpp"
+
+////////////////////////////////////////////////////////////
+/// \brief Class to create ground object like as a grass ground,
+/// a gravel ground, a red bricks ground, etc...
+///
+////////////////////////////////////////////////////////////
+class Ground {
+
+  public :
+    ////////////////////////////////////////////////////////////
+    // Types
+    ////////////////////////////////////////////////////////////
+    typedef std::unique_ptr<Ground>  Ptr; ///< Unique pointer of ground.
+
+  protected :
+    ////////////////////////////////////////////////////////////
+    // Member data
+    ////////////////////////////////////////////////////////////
+    GameObject::ST_Context&   m_stContext;
+    sf::Sprite                m_sfSprite;
+
+  public :
+    ////////////////////////////////////////////////////////////
+    // Constructor(s)/Destructor
+    ////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Default constructor.
+    ///
+    /// This constructor defines a ground.
+    ///
+    /// \param stContext  Unique ressources context.
+    ///
+    ////////////////////////////////////////////////////////////
+    Ground ( GameObject::ST_Context& stContext );
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Destructor.
+    ///
+    /// Cleans up all the internal resources used by the ground.
+    ///
+    ////////////////////////////////////////////////////////////
+    ~Ground ( void );
+
+    ////////////////////////////////////////////////////////////
+    // General methods
+    ////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Initialize all the composants of the ground.
+    ///
+    /// \param uiGroundTexID  Value to identify the texture of the grounds.
+    ///
+    /// \return True if the initialization is succeed, false else.
+    ///
+    ////////////////////////////////////////////////////////////
+    GLboolean Initialize ( GLuint uiGroundTexID );
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Draw a ground.
+    ///
+    /// \param fX           X coordinate of the ground.
+    ///        fY           Y coordinate of the ground.
+    ///        fScale       Scale value of the ground (1.f by default).
+    ///
+    ////////////////////////////////////////////////////////////
+    void Draw ( GLfloat fX, GLfloat fY, GLfloat fScale = 1.f );
+
+    ////////////////////////////////////////////////////////////
+    // Accessor methods
+    ////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Set the textures coords of the ground.
+    ///
+    /// \param sfTexRect  Position and size the subtexture.
+    ///
+    ////////////////////////////////////////////////////////////
+    void SetTexCoords ( sf::IntRect sfTexRect );
+};
+
+#endif // GROUND_HPP__

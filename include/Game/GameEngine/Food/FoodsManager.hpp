@@ -1,0 +1,112 @@
+////////////////////////////////////////////////////////////
+//
+// This file is part of The Fantastic Labyrinth.
+// Copyright (C) 2016 Acroute Anthony (ant110283@hotmail.fr)
+//
+// The Fantastic Labyrinth is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+//
+// The Fantastic Labyrinth is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with The Fantastic Labyrinth.  If not, see <http://www.gnu.org/licenses/>.
+//
+////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////
+// Description for Doxygen
+////////////////////////////////////////////////////////////
+/**
+ * \file FoodsManager.hpp
+ * \brief Class to manage the foods.
+ * \author Anthony Acroute
+ * \version 0.1
+ * \date 2016
+ *
+ */
+
+#ifndef FOODSMANAGER_HPP__
+#define FOODSMANAGER_HPP__
+
+////////////////////////////////////////////////////////////
+// Headers
+////////////////////////////////////////////////////////////
+#include "Food.hpp"
+
+////////////////////////////////////////////////////////////
+/// \brief Class to store and manage the foods.
+///
+////////////////////////////////////////////////////////////
+class FoodsManager : private sf::NonCopyable {
+
+  private :
+    ////////////////////////////////////////////////////////////
+    // Member data
+    ////////////////////////////////////////////////////////////
+    Food*   m_oFoodTypes;   ///< Array of food types.
+
+  public :
+    ////////////////////////////////////////////////////////////
+    // Constructor(s)/Destructor
+    ////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Default constructor.
+    ///
+    /// This constructor defines a foods manager.
+    ///
+    ////////////////////////////////////////////////////////////
+    explicit FoodsManager ( void );
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Destructor.
+    ///
+    /// Cleans up all the internal resources used by the foods manager.
+    ///
+    ////////////////////////////////////////////////////////////
+    ~FoodsManager ( void );
+
+    ////////////////////////////////////////////////////////////
+    // General methods
+    ////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Initialize the foods.
+    ///
+    /// \param stContext    Unique ressources context.
+    ///
+    ////////////////////////////////////////////////////////////
+    void Initialize ( GameObject::ST_Context& stContext );
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Draw a food.
+    ///
+    /// \param eFoodType  Type of the food to draw.
+    ///        fX         X coordinate of the food.
+    ///        fY         Y coordinate of the food.
+    ///        fScale     Scale value of the food (1.f by default).
+    ///
+    ////////////////////////////////////////////////////////////
+    void Draw ( Foods::Type eFoodType, GLfloat fX, GLfloat fY, GLfloat fScale = 1.f );
+
+    ////////////////////////////////////////////////////////////
+    // Accessor methods
+    ////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Get the score provided by the food.
+    ///
+    /// \param eFoodType  Type of the food.
+    ///
+    /// \return Score provided by the food.
+    ///
+    ////////////////////////////////////////////////////////////
+    GLint GetFoodScore ( Foods::Type eFoodType );
+};
+
+#endif // FOODSMANAGER_HPP__

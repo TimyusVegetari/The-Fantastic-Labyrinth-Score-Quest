@@ -1,0 +1,83 @@
+////////////////////////////////////////////////////////////
+//
+// This file is part of DRIMI::Gui.
+// Copyright (C) 2013-2016 Acroute Anthony (ant110283@hotmail.fr)
+//
+// DRIMI::Gui is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+//
+// DRIMI::Gui is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with DRIMI::Gui.  If not, see <http://www.gnu.org/licenses/>.
+//
+// A part of the code in this file is inspired by the book
+// "SFML Game Development".
+//
+////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////
+// Headers
+////////////////////////////////////////////////////////////
+#include <DRIMI/Gui/Component.hpp>
+
+////////////////////////////////////////////////////////////
+// Constructor(s)/Destructor
+////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////
+drimi::Gui::Component::Component ( void ) :
+  sf::Drawable      (),
+  sf::Transformable (),
+  sf::NonCopyable   (),
+  m_bIsSelected     (GL_FALSE),
+  m_bActive         (GL_FALSE)
+{
+}
+
+////////////////////////////////////////////////////////////
+drimi::Gui::Component::~Component ( void ) {
+}
+
+////////////////////////////////////////////////////////////
+// General methods
+////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////
+void drimi::Gui::Component::Select ( void ) {
+  m_bIsSelected = GL_TRUE;
+}
+
+////////////////////////////////////////////////////////////
+void drimi::Gui::Component::Deselect ( void ) {
+  m_bIsSelected = GL_FALSE;
+}
+
+////////////////////////////////////////////////////////////
+void drimi::Gui::Component::Activate ( void ) {
+  m_bActive = GL_TRUE;
+}
+
+////////////////////////////////////////////////////////////
+void drimi::Gui::Component::Deactivate ( void ) {
+  m_bActive = GL_FALSE;
+}
+
+////////////////////////////////////////////////////////////
+// Accessor methods
+////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////
+GLboolean drimi::Gui::Component::IsSelected ( void ) const {
+  return m_bIsSelected;
+}
+
+////////////////////////////////////////////////////////////
+GLboolean drimi::Gui::Component::IsActive ( void ) const {
+  return m_bActive;
+}

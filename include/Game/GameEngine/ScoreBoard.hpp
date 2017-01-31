@@ -1,0 +1,209 @@
+////////////////////////////////////////////////////////////
+//
+// This file is part of The Fantastic Labyrinth.
+// Copyright (C) 2016 Acroute Anthony (ant110283@hotmail.fr)
+//
+// The Fantastic Labyrinth is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+//
+// The Fantastic Labyrinth is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with The Fantastic Labyrinth.  If not, see <http://www.gnu.org/licenses/>.
+//
+////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////
+// Description for Doxygen
+////////////////////////////////////////////////////////////
+/**
+ * \file ScoreBoard.hpp
+ * \brief Class to manage the scores.
+ * \author Anthony Acroute
+ * \version 0.3
+ * \date 2016
+ *
+ */
+
+#ifndef SCOREBOARD_HPP__
+#define SCOREBOARD_HPP__
+
+////////////////////////////////////////////////////////////
+// Headers
+////////////////////////////////////////////////////////////
+#include <Game/includes.hpp>
+#include <list>
+#include <tinyxml2.h>
+
+////////////////////////////////////////////////////////////
+/// \brief Class to store and manage the game scores.
+///
+////////////////////////////////////////////////////////////
+class ScoreBoard : private sf::NonCopyable {
+
+  public :
+    ////////////////////////////////////////////////////////////
+    /// \brief Structure defining a high score line.
+    ///
+    ////////////////////////////////////////////////////////////
+    struct ST_HighScoreLine {
+      std::string   m_szName;   ///< Name of the player.
+      GLint         m_iScore;  ///< Score obtained by the player.
+
+      explicit      ST_HighScoreLine ( std::string szName, GLint iScore );
+      std::string&  GetName ( void );
+      GLint         GetScore ( void );
+    };
+
+  private:
+    ////////////////////////////////////////////////////////////
+    // Member data
+    ////////////////////////////////////////////////////////////
+    GLint                                   m_iTotalScore;      ///< Store the total score.
+    GLint                                   m_iCurrentScore;    ///< Store the current score.
+    std::list<ST_HighScoreLine*>            m_lHighScores;      ///< High scores table.
+    std::list<ST_HighScoreLine*>::iterator  m_lHighScoresIter;  ///< High scores table iterator.
+    GLuint                                  m_uiLastRank;       ///< Rank of the player in the last game.
+
+  public :
+    ////////////////////////////////////////////////////////////
+    // Constructor(s)/Destructor
+    ////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Default constructor.
+    ///
+    /// This constructor defines a stack of game scores.
+    ///
+    ////////////////////////////////////////////////////////////
+    ScoreBoard ( void );
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Destructor.
+    ///
+    /// Cleans up all the internal resources used by the game scores.
+    ///
+    ////////////////////////////////////////////////////////////
+    ~ScoreBoard ( void );
+
+    ////////////////////////////////////////////////////////////
+    // General methods
+    ////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Initialise the score board components.
+    ///
+    ////////////////////////////////////////////////////////////
+    void Initialize ( void );
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Add or substract the points at the current score.
+    ///
+    /// \param iPoints    Points to add or substract at the current score.
+    ///
+    ////////////////////////////////////////////////////////////
+    void AddInCurrentScore ( GLint iPoints );
+
+    ////////////////////////////////////////////////////////////
+    /// \brief compute the total score.
+    ///
+    ////////////////////////////////////////////////////////////
+    void ComputeTotalScore ( void );
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Check the eligibility of the total score.
+    ///
+    /// \return True if the total score is eligible succeed, false else.
+    ///
+    ////////////////////////////////////////////////////////////
+    GLboolean IsTotalScoreEligible ( void );
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Save the high scores table.
+    ///
+    /// \param szName   The name of the player.
+    ///
+    /// \return True if the saving succeed, false else.
+    ///
+    ////////////////////////////////////////////////////////////
+    GLboolean SaveHighScores ( const std::string& szName );
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Load the high scores table.
+    ///
+    /// \return True if the loading succeed, false else.
+    ///
+    ////////////////////////////////////////////////////////////
+    GLboolean LoadHighScores ( void );
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Reset the high score iterator.
+    ///
+    ////////////////////////////////////////////////////////////
+    void ResetHighScoresIter ( void );
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Incremente the high score iterator.
+    ///
+    ////////////////////////////////////////////////////////////
+    void NextHighScoresIter ( void );
+
+    ////////////////////////////////////////////////////////////
+    // Accessor methods
+    ////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Get a string to display the total score.
+    ///
+    /// \return A string to display the total score.
+    ///
+    ////////////////////////////////////////////////////////////
+    std::string ToStringTotal ( void );
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Get a string to display the current score.
+    ///
+    /// \return A string to display the current score.
+    ///
+    ////////////////////////////////////////////////////////////
+    std::string ToStringCurrent ( void );
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Set the current score.
+    ///
+    /// \param iPoints    Points to store in the current score.
+    ///
+    ////////////////////////////////////////////////////////////
+    void SetCurrentScore ( GLint iPoints );
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Get the current score.
+    ///
+    /// \return The value of the current score.
+    ///
+    ////////////////////////////////////////////////////////////
+    GLint GetCurrentScore ( void );
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Get the last rank of the player.
+    ///
+    /// \return The value of the last rank.
+    ///
+    ////////////////////////////////////////////////////////////
+    GLuint GetLastRank ( void );
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Get the current high score line.
+    ///
+    /// \return An instanceof the current high score line.
+    ///
+    ////////////////////////////////////////////////////////////
+    ST_HighScoreLine& GetHighScoresLine ( void );
+};
+
+#endif // SCOREBOARD_HPP__

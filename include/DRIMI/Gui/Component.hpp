@@ -1,0 +1,184 @@
+////////////////////////////////////////////////////////////
+//
+// This file is part of DRIMI::Gui.
+// Copyright (C) 2013-2016 Acroute Anthony (ant110283@hotmail.fr)
+//
+// DRIMI::Gui is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+//
+// DRIMI::Gui is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with DRIMI::Gui.  If not, see <http://www.gnu.org/licenses/>.
+//
+// A part of the code in this file is inspired by the book
+// "SFML Game Development".
+//
+////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////
+// Description for Doxygen
+////////////////////////////////////////////////////////////
+/**
+ * \file Component.hpp
+ * \brief Class for the component of the gui.
+ * \author Anthony Acroute
+ * \version 0.1
+ * \date 2016
+ *
+ */
+
+#ifndef COMPONENT_HPP__
+#define COMPONENT_HPP__
+
+////////////////////////////////////////////////////////////
+// Headers
+////////////////////////////////////////////////////////////
+#include <SFML/OpenGL.hpp>
+#include <SFML/System/NonCopyable.hpp>
+#include <SFML/Graphics/Drawable.hpp>
+#include <SFML/Graphics/Transformable.hpp>
+#include <SFML/Window/Keyboard.hpp>
+#include <DRIMI/Utils/EventTypes.hpp>
+
+#include <memory>
+
+////////////////////////////////////////////////////////////
+/// \brief Class to define a component of the gui like as
+/// a button, text field, etc...
+///
+////////////////////////////////////////////////////////////
+namespace drimi {
+namespace Gui {
+
+class Component : public sf::Drawable,
+                  public sf::Transformable,
+                  private sf::NonCopyable {
+
+  public :
+    ////////////////////////////////////////////////////////////
+    // Types
+    ////////////////////////////////////////////////////////////
+    typedef std::shared_ptr<Component>  Ptr;  ///< Unique pointer of component.
+
+  protected :
+    ////////////////////////////////////////////////////////////
+    // Member data
+    ////////////////////////////////////////////////////////////
+    GLboolean   m_bIsSelected;
+    GLboolean   m_bActive;
+
+  public :
+    ////////////////////////////////////////////////////////////
+    // Constructor(s)/Destructor
+    ////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Default constructor.
+    ///
+    /// This constructor defines a component.
+    ///
+    ////////////////////////////////////////////////////////////
+    Component ( void );
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Destructor.
+    ///
+    /// Cleans up all the internal resources used by the component.
+    ///
+    ////////////////////////////////////////////////////////////
+    virtual ~Component ( void );
+
+    ////////////////////////////////////////////////////////////
+    // General methods
+    ////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Select the component.
+    ///
+    ////////////////////////////////////////////////////////////
+    virtual void Select ( void );
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Deselect the component.
+    ///
+    ////////////////////////////////////////////////////////////
+    virtual void Deselect ( void );
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Activate the component.
+    ///
+    ////////////////////////////////////////////////////////////
+    virtual void Activate ( void );
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Deactivate the component.
+    ///
+    ////////////////////////////////////////////////////////////
+    virtual void Deactivate ( void );
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Check the events for the component.
+    ///
+    /// \param eEventType   The current event type.
+    ///        sfKeyCode    The current keyboard key code.
+    ///
+    /// \return True to permit the events of the other components to be checked, false else.
+    ///
+    ////////////////////////////////////////////////////////////
+    virtual GLboolean HandleEvent ( const drimi::Event::Type eEventType, const sf::Keyboard::Key sfKeyCode ) = 0;
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Transmit a unicode text to the component.
+    ///
+    /// \param cUnicode   The current text unicode.
+    ///
+    /// \return True to permit the text unicode transmission of the other components to be checked, false else.
+    ///
+    ////////////////////////////////////////////////////////////
+    virtual GLboolean HandleTextUnicode ( const char cUnicode ) = 0;
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Update the component.
+    ///
+    ////////////////////////////////////////////////////////////
+    virtual void Update ( void ) {};
+
+    ////////////////////////////////////////////////////////////
+    // Accessor methods
+    ////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Get if the component is selectable or not.
+    ///
+    /// \return True if the component is selectable, false else.
+    ///
+    ////////////////////////////////////////////////////////////
+    virtual GLboolean IsSelectable ( void ) const = 0;
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Get if the component is selected or not.
+    ///
+    /// \return True if the component is selected, false else.
+    ///
+    ////////////////////////////////////////////////////////////
+    GLboolean IsSelected ( void ) const;
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Get if the component is active or not.
+    ///
+    /// \return True if the component is active, false else.
+    ///
+    ////////////////////////////////////////////////////////////
+    GLboolean IsActive ( void ) const;
+};
+
+} // namespace Gui
+} // namespace drimi
+
+#endif // COMPONENT_HPP__

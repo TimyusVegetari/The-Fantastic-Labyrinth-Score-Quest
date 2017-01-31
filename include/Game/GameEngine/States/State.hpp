@@ -1,0 +1,159 @@
+////////////////////////////////////////////////////////////
+//
+// This file is part of Demiurge.
+// Copyright (C) 2011-2016 Acroute Anthony (ant110283@hotmail.fr)
+//
+// Demiurge is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+//
+// Demiurge is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Demiurge.  If not, see <http://www.gnu.org/licenses/>.
+//
+// A big part of the code in this file is inspired by the book
+// "SFML Game Development".
+//
+////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////
+// Description for Doxygen
+////////////////////////////////////////////////////////////
+/**
+ * \file State.hpp
+ * \brief Class for the states of the game.
+ * \author Anthony Acroute
+ * \version 0.5
+ * \date 2014-2016
+ *
+ */
+
+#ifndef STATE_HPP__
+#define STATE_HPP__
+
+////////////////////////////////////////////////////////////
+// Headers
+////////////////////////////////////////////////////////////
+#include <Game/GameEngine/GameObjects/GameObjectsManager.hpp>
+
+namespace States {
+  class Factories;
+}
+
+////////////////////////////////////////////////////////////
+/// \brief Class to create states of the game like as the menu,
+/// game pause, current game session, cinematic, etc...
+///
+////////////////////////////////////////////////////////////
+class State : public GameObject {
+  friend class States::Factories;
+
+  public :
+    ////////////////////////////////////////////////////////////
+    // Types
+    ////////////////////////////////////////////////////////////
+    typedef std::unique_ptr<State>  Ptr; ///< Unique pointer of state.
+
+  protected :
+    ////////////////////////////////////////////////////////////
+    // Member data
+    ////////////////////////////////////////////////////////////
+    StateStack&               m_oStack;
+    GameObjects::Initializer  m_uiInitializer_ID;
+    /*sf::Thread        m_sfThread;       ///< Thread to initialize the state.
+    GLboolean         m_bIsInitialized; ///< Variable to lock the other functions while the class is not initialized.*/
+
+  public :
+    ////////////////////////////////////////////////////////////
+    // Constructor(s)/Destructor
+    ////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Default constructor.
+    ///
+    /// This constructor defines a state.
+    ///
+    ////////////////////////////////////////////////////////////
+    State ( StateStack& oStack, GameObject::ST_Context& stContext );
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Destructor.
+    ///
+    /// Cleans up all the internal resources used by the state.
+    ///
+    ////////////////////////////////////////////////////////////
+    virtual ~State ( void );
+
+    ////////////////////////////////////////////////////////////
+    // General methods
+    ////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Upgrade all the composants of the state when
+    /// the render target view is resized.
+    ///
+    ////////////////////////////////////////////////////////////
+    virtual void ResizeView ( void ) = 0;
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Draw all the composants of the state.
+    ///
+    ////////////////////////////////////////////////////////////
+    virtual void Draw ( void ) = 0;
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Call all the update of the components of the state.
+    ///
+    /// \return True to permit the other states to be updated, false else.
+    ///
+    ////////////////////////////////////////////////////////////
+    virtual GLboolean Update ( void ) = 0;
+
+  protected :
+    ////////////////////////////////////////////////////////////
+    /// \brief Add the state on the top of the stack.
+    ///
+    /// \param sStateID   Value to identify a specific state.
+    ///
+    ////////////////////////////////////////////////////////////
+    void RequestStackPush ( States::ID eStateID );
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Remove the state of the stack.
+    ///
+    ////////////////////////////////////////////////////////////
+    void RequestStackPop ( void );
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Replace the state on the top of the stack by the new state.
+    ///
+    /// \param sStateID   Value to identify the new state.
+    ///
+    ////////////////////////////////////////////////////////////
+    void RequestStackReplace ( States::ID eStateID );
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Call the method to clean the stack.
+    ///
+    ////////////////////////////////////////////////////////////
+    void RequestStateClear ( void );
+
+    ////////////////////////////////////////////////////////////
+    // Accessor methods
+    ////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Get the identifier of the game object initializer of the state.
+    ///
+    /// \return Identifier of the game object initializer.
+    ///
+    ////////////////////////////////////////////////////////////
+    GameObjects::Initializer GetInitializerID ( void );
+};
+
+#endif // STATE_HPP__
